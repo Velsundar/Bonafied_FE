@@ -10,12 +10,22 @@ import { ButtonV1 } from '../components/MUI/Buttons/Button';
 import { COLORS } from '../utils/globals';
 import { FormikHelpers, useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
 
 const Login = () => {
-    const isMobile = useMediaQuery((theme: Theme) =>
+    const isMobile = useMediaQuery(
     theme.breakpoints.down('sm')
   );
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +56,7 @@ const Login = () => {
         minHeight: '100vh',
         backgroundImage: `url(${vector})`,
         backgroundPosition: 'center bottom',
+        backgroundColor:'#7d7a79',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'contain',
         backgroundAttachment: 'fixed',
@@ -93,7 +104,7 @@ const Login = () => {
                     textAlign: 'center',
                   }}
                   pl={1}>
-                  Bonafied Request
+                  Sri RamaKrishna Engineering College
                 </Typography>
               </Box>
               <Box
@@ -103,7 +114,7 @@ const Login = () => {
                   alignItems: 'center',
                   p: 3,
                 }}>
-                <img src={college.src} width='80%' />
+                <img src={college.src} width='90%' style={{height:'300px',border:'none',borderRadius:'15px'}} />
               </Box>
             </Box>
           </Grid>
@@ -127,8 +138,8 @@ const Login = () => {
                 width: '100%',
               }}>
               <form
-                // onSubmit={formik.handleSubmit}
-                style={{ width: isMobile ? '90%' : '70%' }}>
+                // onSubmit={formik.handleSubmit} style={{ width: isMobile ? '90%' : '70%' }}
+                >
                 <Typography
                   style={{
                     color: '#181C32',
@@ -181,24 +192,24 @@ const Login = () => {
                     type='text'
                     name='username'
                     placeholder='Enter your username'
-                    // value={formik?.values?.username}
-                    // onBlur={formik?.handleBlur}
-                    // onChange={formik.handleChange}
+                    value={formik?.values?.username}
+                    onBlur={formik?.handleBlur}
+                    onChange={formik.handleChange}
                     sx={{
                       background: '#F5F8FA',
                       borderRadius: 1,
-                    //   border: `1px solid ${
-                    //     formik.touched.username && formik.errors.username
-                    //       ? 'red'
-                    //       : '#F5F8FA'
-                    //   }`,
+                      border: `1px solid ${
+                        formik.touched.username && formik.errors.username
+                          ? 'red'
+                          : '#F5F8FA'
+                      }`,
                     }}
                   />
-                  {/* {formik.touched.username && formik.errors.username && (
+                  {formik.touched.username && formik.errors.username && (
                     <Typography variant='body2' color='error'>
                       {formik.errors.username}
                     </Typography>
-                  )} */}
+                  )}
                 </Box>
                 <Box>
                   <InputLabel
@@ -214,9 +225,9 @@ const Login = () => {
                     fullWidth
                     name='password'
                     type={showPassword ? 'text' : 'password'}
-                    // value={formik?.values?.password}
-                    // onBlur={formik.handleBlur}
-                    // onChange={formik.handleChange}
+                    value={formik?.values?.password}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
                     placeholder='Enter your password'
                     endAdornment={
                       <InputAdornment position='end'>
@@ -234,18 +245,18 @@ const Login = () => {
                     sx={{
                       background: '#F5F8FA',
                       borderRadius: 1,
-                    //   border: `1px solid ${
-                    //     formik.touched.password && formik.errors.password
-                    //       ? 'red'
-                    //       : '#F5F8FA'
-                    //   }`,
+                      border: `1px solid ${
+                        formik.touched.password && formik.errors.password
+                          ? 'red'
+                          : '#F5F8FA'
+                      }`,
                     }}
                   />
-                  {/* {formik.touched.password && formik.errors.password && (
+                  {formik.touched.password && formik.errors.password && (
                     <Typography variant='body2' color='error'>
                       {formik.errors.password}
                     </Typography>
-                  )} */}
+                  )}
                 </Box>
                 <Box
                   sx={{ display: 'flex', justifyContent: 'end' }}
@@ -296,7 +307,7 @@ const Login = () => {
                   fullWidth
                   disabled={
                     isLoading ||
-                    !formik.isValid ||
+                    formik.isValid ||
                     !formik.values.username ||
                     !formik.values.password
                   }>

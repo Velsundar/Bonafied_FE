@@ -67,8 +67,8 @@ export const TextField_v2 = styled(InputBase)(({ theme }) => ({
       '"Segoe UI Symbol"',
     ].join(","),
     "&:focus": {
-      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: theme.palette.primary.main,
+      // boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+      // borderColor: theme.palette.primary.main,
     },
     "&::placeholder": {
       color: "#969696",
