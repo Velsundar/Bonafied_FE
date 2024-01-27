@@ -313,7 +313,7 @@ const Login = () => {
                   }>
                   {isLoading ? <div className='spinner'></div> : 'Login'}
                 </ButtonV1>
-                {/* <Typography mt={1} sx={{ textAlign: "center" }}>
+                <Typography mt={1} sx={{ textAlign: "center" }} style={{color: COLORS.secondary}}>
                   Don't have an account?{" "}
                   <span
                     style={{
@@ -321,13 +321,13 @@ const Login = () => {
                       fontWeight: "600",
                       cursor: "pointer",
                     }}
-                    onClick={() => {
-                      navigate(APP_ROUTES?.SIGN_UP?.pathName);
-                    }}
+                    // onClick={() => {
+                    //   navigate(APP_ROUTES?.SIGN_UP?.pathName);
+                    // }}
                   >
                     Register
                   </span>
-                </Typography> */}
+                </Typography>
               </form>
             </Box>
           </Grid>
