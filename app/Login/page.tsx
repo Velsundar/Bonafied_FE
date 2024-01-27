@@ -138,7 +138,7 @@ const Login = () => {
                 width: '100%',
               }}>
               <form
-                // onSubmit={formik.handleSubmit} style={{ width: isMobile ? '90%' : '70%' }}
+                onSubmit={formik.handleSubmit} style={{ width: isMobile ? '90%' : '70%' }}
                 >
                 <Typography
                   style={{
