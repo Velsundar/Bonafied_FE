@@ -262,14 +262,14 @@ const Login = () => {
                   sx={{ display: 'flex', justifyContent: 'end' }}
                   pt={1}
                   pb={5}>
-                  {/* <Typography
+                  <Typography
                     style={{ color: COLORS.secondary, cursor: "pointer" }}
-                    onClick={() => {
-                      navigate(APP_ROUTES?.FORGOT_PASSWORD?.pathName);
-                    }}
+                    // onClick={() => {
+                    //   navigate(APP_ROUTES?.FORGOT_PASSWORD?.pathName);
+                    // }}
                   >
                     Forgot Password?
-                  </Typography> */}
+                  </Typography>
                 </Box>
 
                 <ButtonV1
