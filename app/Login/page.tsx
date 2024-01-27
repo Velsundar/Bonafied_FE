@@ -20,7 +20,8 @@ import { COLORS } from "../utils/globals";
 import { FormikHelpers, useFormik } from "formik";
 import * as Yup from "yup";
 import { createTheme } from "@mui/material/styles";
-
+import Register from "../register/page"
+import { useRouter } from "next/navigation";
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -38,6 +39,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useRouter();
 
   // *******************| Fromik Validation |******************
   const signinSchema = Yup.object({
@@ -357,9 +359,9 @@ const Login = () => {
                         fontWeight: "600",
                         cursor: "pointer",
                       }}
-                      // onClick={() => {
-                      //   navigate(APP_ROUTES?.SIGN_UP?.pathName);
-                      // }}
+                      onClick={() => {
+                        navigate.push('/register');
+                      }}
                     >
                       Register
                     </span>
