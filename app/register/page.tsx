@@ -29,6 +29,7 @@ import { createTheme } from "@mui/material/styles";
 import { FormikHelpers, useFormik } from "formik";
 import * as Yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from 'axios';
 
 interface ApiResponse {
   id: string;
@@ -82,29 +83,28 @@ export default function SignUp() {
       phoneNumber: "",
       department: "",
       batch: "",
-      role: "",
     },
     validationSchema: registerSchema,
     onSubmit: beforeLogin,
   });
 
-  const [formData, setFormData] = useState<IRegister>({
-    fullName: "",
-    email: "",
-    password: "",
-    registrationNumber: "",
-    phoneNumber: "",
-    department: "",
-    batch: "",
-    role: "",
-  });
+  // const [formData, setFormData] = useState<IRegister>({
+  //   fullName: "",
+  //   email: "",
+  //   password: "",
+  //   registrationNumber: "",
+  //   phoneNumber: "",
+  //   department: "",
+  //   batch: "",
+  //   role: "",
+  // });
 
-  const [formErrors, setFormErrors] = useState<Partial<IRegister>>({});
+  // const [formErrors, setFormErrors] = useState<Partial<IRegister>>({});
 
-  const handleInputChange = (field: keyof IRegister, value: string) => {
-    setFormErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
-    setFormData((prevData) => ({ ...prevData, [field]: value }));
-  };
+  // const handleInputChange = (field: keyof IRegister, value: string) => {
+  //   setFormErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
+  //   setFormData((prevData) => ({ ...prevData, [field]: value }));
+  // };
 
   const isValidInput = (value: any, type?: any, len?: any) => {
     function extraValidation(val: any) {
@@ -120,10 +120,17 @@ export default function SignUp() {
       return Boolean(value);
     }
   };
-
   function handleRegister(event: FormEvent<HTMLFormElement>): void {
-    throw new Error("Function not implemented.");
+    event.preventDefault();
+      axios.post('http://localhost:4000/api/register', formik?.values)
+      .then((response) => {
+        console.log('Registration successful:', response.data);
+      })
+      .catch((error) => {
+        console.error('Registration failed:', error);
+      });
   }
+console.log('formikvalues',formik.values);
 
   return (
     <>
@@ -523,6 +530,7 @@ export default function SignUp() {
                             ? "red"
                             : "#F5F8FA"
                         }`,
+                        mb: 2,
                       }}
                     />
                     {formik.touched.batch && formik.errors.batch && (
@@ -584,7 +592,6 @@ function beforeLogin(
     phoneNumber: string;
     department: string;
     batch: string;
-    role: string;
   },
   formikHelpers: FormikHelpers<{
     fullName: string;
@@ -594,7 +601,6 @@ function beforeLogin(
     phoneNumber: string;
     department: string;
     batch: string;
-    role: string;
   }>
 ): void | Promise<any> {
   throw new Error("Function not implemented.");
