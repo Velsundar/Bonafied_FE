@@ -62,6 +62,7 @@ const Login = () => {
       const { token } = response.data;
       localStorage.setItem("token", token);
       navigate.push("/dashboard");
+      toast.success("Login successful!");
     } catch (error) {
       toast.error("Invalid email or password");
     } finally {
