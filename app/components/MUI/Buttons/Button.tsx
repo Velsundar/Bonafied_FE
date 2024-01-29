@@ -1,16 +1,4 @@
-/**
- * eslint-disable @typescript-eslint/no-explicit-any
- *
- * @format
- */
 
-/**
- * eslint-disable react-refresh/only-export-components
- *
- * @format
- */
-
-/* eslint-disable no-empty-pattern */
 import {
     Button,
     ButtonProps,
@@ -31,9 +19,6 @@ import {
   import BorderColorOutlined from "@mui/icons-material/BorderColorOutlined";
   import RestoreFromTrashSharpIcon from "@mui/icons-material/RestoreFromTrashSharp";
   import AddchartSharpIcon from "@mui/icons-material/AddchartSharp";
-  // eslint-disable-next-line no-empty-pattern
-  
-  // Default icons for buttons actionicon buttons
   import ModeIcon from "@mui/icons-material/Mode";
   import DeIcon from "@mui/icons-material/Delete";
   import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -51,15 +36,11 @@ import {
     borderRadius: 0,
     borderStyle: "dashed",
   }));
-  
-  // eslint-disable-next-line no-empty-pattern
-  export const Button_v2 = styled(Button)(({}) => ({
+    export const Button_v2 = styled(Button)(({}) => ({
     borderStyle: "none",
     height: "auto",
   }));
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export const Button_v3 = (props: any) => {
+    export const Button_v3 = (props: any) => {
     return <Button variant="contained" {...props} />;
   };
   
@@ -87,7 +68,6 @@ import {
   
     return <BorderColorOutlined {...defaultProps} {...props} />;
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export const DeleteIcon: FC<any> = (props: any) => {
     const defaultProps: IconProps = {};
   
@@ -104,9 +84,6 @@ import {
     return <AddchartSharpIcon {...defaultProps} {...props} />;
   };
   
-  // const defaultProps = {
-  //     size:
-  // }
   interface IToggleSwitchProps extends SwitchProps {
     label?: string;
     required?: boolean;

@@ -8,6 +8,7 @@ import {
   InputLabel,
   InputAdornment,
   IconButton,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 import vector from "../assets/Vector.svg";
@@ -20,8 +21,10 @@ import { COLORS } from "../utils/globals";
 import { FormikHelpers, useFormik } from "formik";
 import * as Yup from "yup";
 import { createTheme } from "@mui/material/styles";
-import Register from "../register/page"
+import Register from "../register/page";
 import { useRouter } from "next/navigation";
+import axios from "axios"; // Import Axios for HTTP requests
+import { toast } from "react-toastify";
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -43,17 +46,36 @@ const Login = () => {
 
   // *******************| Fromik Validation |******************
   const signinSchema = Yup.object({
-    username: Yup.string().required("Username is required"),
+    email: Yup.string().required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
+  const handleSubmit = async (
+    values: { email: any; password: any },
+    formikHelpers: any
+  ) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post("http://localhost:4000/api/login", {
+        email: values.email,
+        password: values.password,
+      });
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      navigate.push("/dashboard");
+    } catch (error) {
+      toast.error("Invalid email or password");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema: signinSchema,
-    onSubmit: beforeLogin,
+    onSubmit: handleSubmit,
   });
 
   return (
@@ -220,24 +242,24 @@ const Login = () => {
                     <TextField_v2
                       fullWidth
                       type="text"
-                      name="username"
-                      placeholder="Enter your username"
-                      value={formik?.values?.username}
+                      name="email"
+                      placeholder="Enter your Email ID"
+                      value={formik?.values?.email}
                       onBlur={formik?.handleBlur}
                       onChange={formik.handleChange}
                       sx={{
                         background: "#F5F8FA",
                         borderRadius: 1,
                         border: `1px solid ${
-                          formik.touched.username && formik.errors.username
+                          formik.touched.email && formik.errors.email
                             ? "red"
                             : "#F5F8FA"
                         }`,
                       }}
                     />
-                    {formik.touched.username && formik.errors.username && (
+                    {formik.touched.email && formik.errors.email && (
                       <Typography variant="body2" color="error">
-                        {formik.errors.username}
+                        {formik.errors.email}
                       </Typography>
                     )}
                   </Box>
@@ -311,7 +333,7 @@ const Login = () => {
                       background:
                         isLoading ||
                         !formik.isValid ||
-                        !formik.values.username ||
+                        !formik.values.email ||
                         !formik.values.password
                           ? "#B0A4BF"
                           : `linear-gradient(180deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
@@ -319,7 +341,7 @@ const Login = () => {
                       border: `1px ${
                         isLoading ||
                         !formik.isValid ||
-                        !formik.values.username ||
+                        !formik.values.email ||
                         !formik.values.password
                           ? "#B0A4BF"
                           : COLORS.primary
@@ -332,18 +354,18 @@ const Login = () => {
                       cursor:
                         isLoading ||
                         !formik.isValid ||
-                        !formik.values.username ||
+                        !formik.values.email ||
                         !formik.values.password
                           ? "not-allowed"
                           : "pointer",
                     }}
                     fullWidth
-                    disabled={
-                      isLoading ||
-                      formik.isValid ||
-                      !formik.values.username ||
-                      !formik.values.password
-                    }
+                    // disabled={
+                    //   isLoading ||
+                    //   formik.isValid ||
+                    //   !formik.values.username ||
+                    //   !formik.values.password
+                    // }
                   >
                     {isLoading ? <div className="spinner"></div> : "Login"}
                   </ButtonV1>
@@ -360,7 +382,7 @@ const Login = () => {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        navigate.push('/register');
+                        navigate.push("/register");
                       }}
                     >
                       Register
@@ -378,9 +400,9 @@ const Login = () => {
 
 export default Login;
 
-function beforeLogin(
-  values: { username: string; password: string },
-  formikHelpers: FormikHelpers<{ username: string; password: string }>
-): void | Promise<any> {
-  throw new Error("Function not implemented.");
-}
+// function beforeLogin(
+//   values: { username: string; password: string },
+//   formikHelpers: FormikHelpers<{ username: string; password: string }>
+// ): void | Promise<any> {
+//   throw new Error("Function not implemented.");
+// }
