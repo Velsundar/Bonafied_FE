@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Login from "./Login/page";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   return (
-    <>
-      <h1>hi Indrajith</h1>
-      <h2>hi ragabvan</h2>
+      <>
+      <Login />
+      <ToastContainer />
       </>
   );
 }
