@@ -122,7 +122,7 @@ export default function SignUp() {
   };
   function handleRegister(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-      axios.post('http://localhost:4000/api/register', formik?.values)
+      axios.post('https://backendbe.onrender.com/api/register', formik?.values)
       .then((response) => {
         console.log('Registration successful:', response.data);
       })
