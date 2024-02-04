@@ -26,14 +26,14 @@ interface FormValues {
 
 const Userdash = () => {
   const initialValues: FormValues = {
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    district: "",
-    country: "",
-    state: "",
-  };
+  fullName: "",
+  email: "",
+  phoneNumber: "",
+  address: "",
+  district: "",
+  country: "",
+  state: "",
+};
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -54,7 +54,7 @@ const Userdash = () => {
   });
 
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     console.log(formData);
   };
