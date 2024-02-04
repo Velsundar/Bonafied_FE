@@ -55,13 +55,21 @@ const Login = () => {
   ) => {
     try {
       setIsLoading(true);
-      const response = await axios.post("https://backendbe.onrender.com/api/login", {
+      const response = await axios.post("http://localhost:4000/api/login", {
         email: values.email,
         password: values.password,
       });
       const { token } = response.data;
+      const userData = response?.data?.role;
+      console.log("role", userData);
       localStorage.setItem("token", token);
       navigate.push("/dashboard");
+      if (userData === "admin") {
+        navigate.push("/admin/dashboard");
+      } else {
+        navigate.push("/user/dashboard");
+      }
+
       toast.success("Login successful!");
     } catch (error) {
       toast.error("Invalid email or password");
