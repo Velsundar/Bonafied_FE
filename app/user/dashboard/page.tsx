@@ -15,44 +15,38 @@ import * as Yup from "yup";
 
 interface FormValues {
   fullName: string;
+  regNo: string;
+  department: string;
+  year: string;
   email: string;
-  phoneNumber: string;
-  address: string;
-  district: string;
-  country: string;
-  state: string;
+  fatherName: string;
 }
-
 
 const Userdash = () => {
   const initialValues: FormValues = {
-  fullName: "",
-  email: "",
-  phoneNumber: "",
-  address: "",
-  district: "",
-  country: "",
-  state: "",
-};
+    fullName: "",
+    regNo: "",
+    department: "",
+    year: "",
+    email: "",
+    fatherName: "",
+  };
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
+    regNo: Yup.string().required("Reg.No is required"),
+    department: Yup.string().required("Department is required"),
+    year: Yup.string().required("Year is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phoneNumber: Yup.string().required("Phone Number is required"),
-    address: Yup.string().required("Address is required"),
-    district: Yup.string().required("District is required"),
-    country: Yup.string().required("Country is required"),
-    state: Yup.string().required("State is required"),
+    fatherName: Yup.string().required("Father's Name is required"),
   });
   const [formData, setFormData] = useState({
     fullName: "",
+    regNo: "",
+    department: "",
+    year: "",
     email: "",
-    phoneNumber: "",
-    address: "",
-    district: "",
-    country: "",
-    state: "",
+    fatherName: "",
   });
-
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -116,6 +110,39 @@ const Userdash = () => {
                     <Box mt={2}>
                       <Field
                         as={TextField}
+                        label="Registration Number"
+                        name="regNo"
+                        fullWidth
+                        variant="outlined"
+                        required
+                      />
+                      <ErrorMessage name="regNo" component="div" />
+                    </Box>
+                    <Box mt={2}>
+                      <Field
+                        as={TextField}
+                        label="Department"
+                        name="department"
+                        fullWidth
+                        variant="outlined"
+                        required
+                      />
+                      <ErrorMessage name="department" component="div" />
+                    </Box>
+                    <Box mt={2}>
+                      <Field
+                        as={TextField}
+                        label="Year"
+                        name="year"
+                        fullWidth
+                        variant="outlined"
+                        required
+                      />
+                      <ErrorMessage name="year" component="div" />
+                    </Box>
+                    <Box mt={2}>
+                      <Field
+                        as={TextField}
                         label="Email"
                         name="email"
                         fullWidth
@@ -127,57 +154,13 @@ const Userdash = () => {
                     <Box mt={2}>
                       <Field
                         as={TextField}
-                        label="Phone Number"
-                        name="phoneNumber"
+                        label="Father's Name"
+                        name="fatherName"
                         fullWidth
                         variant="outlined"
                         required
                       />
-                      <ErrorMessage name="phoneNumber" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Address"
-                        name="address"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="address" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="District"
-                        name="district"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="district" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Country"
-                        name="country"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="country" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="State"
-                        name="state"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="state" component="div" />
+                      <ErrorMessage name="fatherName" component="div" />
                     </Box>
                     <Box mt={2} textAlign="center">
                       <Button
