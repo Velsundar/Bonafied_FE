@@ -8,10 +8,13 @@ import {
   Paper,
   Container,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BG from "../../assets/png/rec.jpg";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
+import { MenuItem } from "@mui/material";
 import * as Yup from "yup";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   fullName: string;
@@ -20,9 +23,11 @@ interface FormValues {
   year: string;
   email: string;
   fatherName: string;
+  purpose: string;
 }
 
 const Userdash = () => {
+  const history = useRouter();
   const initialValues: FormValues = {
     fullName: "",
     regNo: "",
@@ -30,7 +35,14 @@ const Userdash = () => {
     year: "",
     email: "",
     fatherName: "",
+    purpose: "",
   };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      history.push("/");
+    }
+  }, [history]);
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
     regNo: Yup.string().required("Reg.No is required"),
@@ -38,6 +50,7 @@ const Userdash = () => {
     year: Yup.string().required("Year is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     fatherName: Yup.string().required("Father's Name is required"),
+    purpose: Yup.string().required("purpose is required"),
   });
   const [formData, setFormData] = useState({
     fullName: "",
@@ -46,13 +59,48 @@ const Userdash = () => {
     year: "",
     email: "",
     fatherName: "",
+    purpose: "",
   });
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log(formData);
-  };
+  const departments = [
+    "Mechanical",
+    "Electronics & Computer Application",
+    "Electrical & Electronics Engineering",
+    "Civil Engineering",
+    "Information Technology",
+    "Computer Science Engineering",
+  ]; // Sample department options
+  const purposes = [
+    "Higher Studies",
+    "Loan Applications",
+    "Passport Applications",
+  ];
 
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/bonafied",
+        values
+      );
+
+      console.log("Bonafied created successfully:", response.data);
+    } catch (error: any) {
+      console.error("Error:", error.response.data.message);
+    }
+  };
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      regNo: "",
+      email: "",
+      department: "",
+      year: "",
+      fatherName: "",
+      purpose: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: handleSubmit,
+  });
   return (
     <div
       style={{
@@ -83,98 +131,141 @@ const Userdash = () => {
                 "-ms-overflow-style": "none",
               }}
             >
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-              >
-                {({ isSubmitting, errors, touched }) => (
-                  <Form style={{ color: "black" }}>
-                    <Box mt={2} textAlign="center">
-                      <Typography variant="h5" style={{ userSelect: "none" }}>
-                        Bonafied Application
-                      </Typography>
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Full Name"
-                        name="fullName"
-                        fullWidth
-                        variant="outlined"
-                        required
-                        error={touched.fullName && Boolean(errors.fullName)}
-                        helperText={touched.fullName && errors.fullName}
-                      />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Registration Number"
-                        name="regNo"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="regNo" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Department"
-                        name="department"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="department" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Year"
-                        name="year"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="year" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Email"
-                        name="email"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="email" component="div" />
-                    </Box>
-                    <Box mt={2}>
-                      <Field
-                        as={TextField}
-                        label="Father's Name"
-                        name="fatherName"
-                        fullWidth
-                        variant="outlined"
-                        required
-                      />
-                      <ErrorMessage name="fatherName" component="div" />
-                    </Box>
-                    <Box mt={2} textAlign="center">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        style={{ backgroundColor: "#f44336", color: "#ffffff" }}
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Submitting..." : "Submit"}
-                      </Button>
-                    </Box>
-                  </Form>
-                )}
-              </Formik>
+              <form onSubmit={formik.handleSubmit}>
+                <Typography variant="h4" align="center" gutterBottom>
+                  Bonafied Application
+                </Typography>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    id="fullName"
+                    name="fullName"
+                    label="Full Name *"
+                    value={formik.values.fullName}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.fullName && Boolean(formik.errors.fullName)
+                    }
+                    helperText={
+                      formik.touched.fullName && formik.errors.fullName
+                    }
+                    onBlur={formik.handleBlur}
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    id="regNo"
+                    name="regNo"
+                    label="Registration Number *"
+                    value={formik.values.regNo}
+                    onChange={formik.handleChange}
+                    error={formik.touched.regNo && Boolean(formik.errors.regNo)}
+                    helperText={formik.touched.regNo && formik.errors.regNo}
+                    onBlur={formik.handleBlur}
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email *"
+                    type="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                    onBlur={formik.handleBlur}
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    select
+                    id="department"
+                    name="department"
+                    label="Department *"
+                    value={formik.values.department}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.department &&
+                      Boolean(formik.errors.department)
+                    }
+                    helperText={
+                      formik.touched.department && formik.errors.department
+                    }
+                    onBlur={formik.handleBlur}
+                  >
+                    {departments.map((department) => (
+                      <MenuItem key={department} value={department}>
+                        {department}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    id="year"
+                    name="year"
+                    label="Year *"
+                    value={formik.values.year}
+                    onChange={formik.handleChange}
+                    error={formik.touched.year && Boolean(formik.errors.year)}
+                    helperText={formik.touched.year && formik.errors.year}
+                    onBlur={formik.handleBlur}
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    id="fatherName"
+                    name="fatherName"
+                    label="Father's Name *"
+                    value={formik.values.fatherName}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.fatherName &&
+                      Boolean(formik.errors.fatherName)
+                    }
+                    helperText={
+                      formik.touched.fatherName && formik.errors.fatherName
+                    }
+                    onBlur={formik.handleBlur}
+                  />
+                </Box>
+                <Box mb={2}>
+                  <TextField
+                    fullWidth
+                    id="purpose"
+                    name="purpose"
+                    label="Purpose *"
+                    value={formik.values.purpose}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.purpose && Boolean(formik.errors.purpose)
+                    }
+                    helperText={formik.touched.purpose && formik.errors.purpose}
+                    onBlur={formik.handleBlur}
+                    select
+                  >
+                    {purposes.map((purpose) => (
+                      <MenuItem key={purpose} value={purpose}>
+                        {purpose}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  fullWidth
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </form>
             </Paper>
           </Box>
         </Container>
