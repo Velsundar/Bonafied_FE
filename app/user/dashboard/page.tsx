@@ -151,6 +151,7 @@ const Userdash = () => {
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                 maxHeight: "90vh",
                 overflowY: "auto",
+                // @ts-ignore
                 "&::-webkit-scrollbar": {
                   width: 0,
                 },
