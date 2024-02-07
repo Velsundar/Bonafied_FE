@@ -1,9 +1,18 @@
 "use client"
 import NavBar from '../../../app/dashboard/navbar'
 import { Box } from '@mui/material'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 
 const Admindash = () => {
+  const history = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      history.push("/");
+    }
+  }, [history]);
+
   return (
     <Box>
       <NavBar/>
