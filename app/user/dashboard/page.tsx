@@ -43,6 +43,11 @@ const Userdash = () => {
       history.push("/");
     }
   }, [history]);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return null; // or <LoadingIndicator />
+  }
+
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
     regNo: Yup.string().required("Reg.No is required"),

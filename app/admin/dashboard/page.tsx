@@ -13,6 +13,11 @@ const Admindash = () => {
     }
   }, [history]);
 
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return null; // or <LoadingIndicator />
+  }
+  
   return (
     <Box>
       <NavBar/>
