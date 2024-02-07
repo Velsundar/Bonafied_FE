@@ -15,6 +15,7 @@ import { MenuItem } from "@mui/material";
 import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import UnAutorizedAccess from '../../assets/png/Unauthorized_access.jpeg'
 
 interface FormValues {
   fullName: string;
@@ -37,17 +38,6 @@ const Userdash = () => {
     fatherName: "",
     purpose: "",
   };
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      history.push("/");
-    }
-  }, [history]);
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return null; // or <LoadingIndicator />
-  }
-
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
     regNo: Yup.string().required("Reg.No is required"),
@@ -106,6 +96,38 @@ const Userdash = () => {
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
   });
+  const [isTokenPresent, setIsTokenPresent] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      history.push("/");
+    } else {
+      setIsTokenPresent(true);
+    }
+  }, [history]);
+
+  if (!isTokenPresent) {
+    return (
+      <div
+        style={{
+          backgroundImage: `url(${UnAutorizedAccess.src})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: 'white',
+          fontSize: '35px',
+          textAlign: 'center',
+        }}
+      >
+        Unauthorized - Please log in
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
