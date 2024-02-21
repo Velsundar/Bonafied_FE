@@ -1,9 +1,10 @@
 "use client"
 import NavBar from '../../../app/dashboard/navbar'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import UnAutorizedAccess from '../../assets/png/Unauthorized_access.jpeg'
+import MiniDrawer from '../../..//app/components/MUI/Drawer/Drawer'
 
 const Admindash = () => {
   const history = useRouter();
@@ -29,7 +30,8 @@ const Admindash = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          color: 'white',
+          color: 'black',
+          fontWeight:800,
           fontSize: '35px',
           textAlign: 'center',
         }}
@@ -42,7 +44,11 @@ const Admindash = () => {
 
   return (
     <Box>
-      <NavBar/>
+      {/* <NavBar/> */}
+      <MiniDrawer/>
+      <Box>
+        <Typography>hello world</Typography>
+      </Box>
     </Box>
   )
 }
