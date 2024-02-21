@@ -58,13 +58,14 @@ const Userdash = () => {
   });
 
   const departments = [
+    "AI & Data Science",
     "Mechanical",
-    "Electronics & Computer Application",
+    "Electronics & Communication Engineering",
     "Electrical & Electronics Engineering",
     "Civil Engineering",
     "Information Technology",
     "Computer Science Engineering",
-  ]; // Sample department options
+  ];
   const purposes = [
     "Higher Studies",
     "Loan Applications",
