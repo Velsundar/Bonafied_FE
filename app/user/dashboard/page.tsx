@@ -16,6 +16,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import UnAutorizedAccess from '../../assets/png/Unauthorized_access.jpeg'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface FormValues {
   fullName: string;
@@ -74,16 +76,13 @@ const Userdash = () => {
 
   const handleSubmit = async (values: FormValues) => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/bonafied",
-        values
-      );
-
-      console.log("Bonafied created successfully:", response.data);
+      await axios.post("http://localhost:4000/api/bonafied", values);
+      toast.success("Submitted Successfully!");
+      formik.resetForm();
     } catch (error: any) {
       console.error("Error:", error.response.data.message);
     }
-  };
+  }
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -298,6 +297,7 @@ const Userdash = () => {
             </Paper>
           </Box>
         </Container>
+        <ToastContainer />
       </Box>
     </div>
   );
