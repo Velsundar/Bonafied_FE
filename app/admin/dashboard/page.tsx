@@ -9,16 +9,19 @@ import MiniDrawer from '../../..//app/components/MUI/Drawer/Drawer'
 const Admindash = () => {
   const history = useRouter();
   const [isTokenPresent, setIsTokenPresent] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    const userRole = localStorage.getItem("role");
+    if (!token || userRole !== "admin") {
       history.push("/");
     } else {
       setIsTokenPresent(true);
+      setIsAdmin(true);
     }
   }, [history]);
 
-  if (!isTokenPresent) {
+  if (!isTokenPresent|| !isAdmin) {
     return (
       <div
         style={{

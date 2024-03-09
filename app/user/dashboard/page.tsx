@@ -31,6 +31,7 @@ interface FormValues {
 
 const Userdash = () => {
   const history = useRouter();
+  const [isUser, setIsUser] = useState(false);
   const initialValues: FormValues = {
     fullName: "",
     regNo: "",
@@ -99,14 +100,16 @@ const Userdash = () => {
   const [isTokenPresent, setIsTokenPresent] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    const userRole = localStorage.getItem("role");
+    if (!token|| userRole !== "user") {
       history.push("/");
     } else {
       setIsTokenPresent(true);
+      setIsUser(true);
     }
   }, [history]);
 
-  if (!isTokenPresent) {
+  if (!isTokenPresent || !isUser) {
     return (
       <div
         style={{
