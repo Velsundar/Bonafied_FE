@@ -46,17 +46,17 @@ const Login = () => {
 
   // *******************| Fromik Validation |******************
   const signinSchema = Yup.object({
-    email: Yup.string().required("Email is required"),
+    roll_no: Yup.string().required("Register number is required"),
     password: Yup.string().required("Password is required"),
   });
   const handleSubmit = async (
-    values: { email: any; password: any },
+    values: { roll_no: any; password: any },
     formikHelpers: any
   ) => {
     try {
       setIsLoading(true);
       const response = await axios.post("http://localhost:4000/api/login", {
-        email: values.email,
+        roll_no: values.roll_no,
         password: values.password,
       });
       const { token } = response.data;
@@ -80,7 +80,7 @@ const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      roll_no: "",
       password: "",
     },
     validationSchema: signinSchema,
@@ -246,29 +246,29 @@ const Login = () => {
                         color: "#181C32",
                       }}
                     >
-                      Username<span style={{ color: "red" }}>*</span>
+                      Register Number<span style={{ color: "red" }}>*</span>
                     </InputLabel>
                     <TextField_v2
                       fullWidth
                       type="text"
-                      name="email"
+                      name="roll_no"
                       placeholder="Enter your Email ID"
-                      value={formik?.values?.email}
+                      value={formik?.values?.roll_no}
                       onBlur={formik?.handleBlur}
                       onChange={formik.handleChange}
                       sx={{
                         background: "#F5F8FA",
                         borderRadius: 1,
                         border: `1px solid ${
-                          formik.touched.email && formik.errors.email
+                          formik.touched.roll_no && formik.errors.roll_no
                             ? "red"
                             : "#F5F8FA"
                         }`,
                       }}
                     />
-                    {formik.touched.email && formik.errors.email && (
+                    {formik.touched.roll_no && formik.errors.roll_no && (
                       <Typography variant="body2" color="error">
-                        {formik.errors.email}
+                        {formik.errors.roll_no}
                       </Typography>
                     )}
                   </Box>
@@ -342,7 +342,7 @@ const Login = () => {
                       background:
                         isLoading ||
                         !formik.isValid ||
-                        !formik.values.email ||
+                        !formik.values.roll_no ||
                         !formik.values.password
                           ? "#B0A4BF"
                           : `linear-gradient(180deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
@@ -350,7 +350,7 @@ const Login = () => {
                       border: `1px ${
                         isLoading ||
                         !formik.isValid ||
-                        !formik.values.email ||
+                        !formik.values.roll_no ||
                         !formik.values.password
                           ? "#B0A4BF"
                           : COLORS.primary
@@ -363,7 +363,7 @@ const Login = () => {
                       cursor:
                         isLoading ||
                         !formik.isValid ||
-                        !formik.values.email ||
+                        !formik.values.roll_no ||
                         !formik.values.password
                           ? "not-allowed"
                           : "pointer",
