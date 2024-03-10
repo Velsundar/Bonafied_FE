@@ -59,11 +59,12 @@ const Login = () => {
         roll_no: values.roll_no,
         password: values.password,
       });
-      const { token } = response.data;
+      const { token, data } = response.data;
       const UserRole = response?.data?.role;
       console.log("role", UserRole);
       localStorage.setItem("token", token);
       localStorage.setItem("role", UserRole);
+      localStorage.setItem("userData", JSON.stringify(data));
       navigate.push("/dashboard");
       if (UserRole === "admin") {
         navigate.push("/admin/dashboard");
