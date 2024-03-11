@@ -1,10 +1,11 @@
-"use client"
-import NavBar from '../../../app/dashboard/navbar'
-import { Box, Typography } from '@mui/material'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import UnAutorizedAccess from '../../assets/png/Unauthorized_access.jpeg'
-import MiniDrawer from '../../..//app/components/MUI/Drawer/Drawer'
+"use client";
+import NavBar from "../../../app/dashboard/navbar";
+import { Box,  Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import UnAutorizedAccess from "../../assets/png/Unauthorized_access.jpeg";
+import MiniDrawer from "../../..//app/components/MUI/Drawer/Drawer";
+import PaperLayout from "../../../app/components/MUI/PaperLayout/PaperLayout";
 
 const Admindash = () => {
   const history = useRouter();
@@ -21,22 +22,22 @@ const Admindash = () => {
     }
   }, [history]);
 
-  if (!isTokenPresent|| !isAdmin) {
+  if (!isTokenPresent || !isAdmin) {
     return (
       <div
         style={{
           backgroundImage: `url(${UnAutorizedAccess.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          width: '100%',
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          color: 'black',
-          fontWeight:800,
-          fontSize: '35px',
-          textAlign: 'center',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "black",
+          fontWeight: 800,
+          fontSize: "35px",
+          textAlign: "center",
         }}
       >
         Unauthorized - Please log in
@@ -44,16 +45,27 @@ const Admindash = () => {
     );
   }
 
-
   return (
-    <Box>
-      {/* <NavBar/> */}
-      <MiniDrawer/>
-      <Box>
-        <Typography>hello world</Typography>
-      </Box>
+    <Box style={{ display: "flex", height: "calc(100vh - 120px)",width: "100%" }}>
+      <MiniDrawer />
+      <PaperLayout
+          elevation={3}
+          style={{
+            height: "100%",
+            marginTop: "90px",
+            padding: "20px",
+            width:"calc(100vw - 200px)"
+          }}
+        >
+        <Box sx={{ flexGrow: 1, padding: "20px" }}>
+          <Typography variant="h4">Hello, Admin!</Typography>
+          <Typography variant="body1">
+            Welcome to the admin dashboard.
+          </Typography>
+        </Box>
+      </PaperLayout>
     </Box>
-  )
-}
+  );
+};
 
 export default Admindash;
