@@ -22,29 +22,7 @@ const Admindash = () => {
     }
   }, [history]);
 
-  if (!isTokenPresent || !isAdmin) {
-    return (
-      <div
-        style={{
-          backgroundImage: `url(${UnAutorizedAccess.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "black",
-          fontWeight: 800,
-          fontSize: "35px",
-          textAlign: "center",
-        }}
-      >
-        Unauthorized - Please log in
-      </div>
-    );
-  }
-
+  
   return (
     <Box style={{ display: "flex", height: "calc(100vh - 120px)",width: "100%" }}>
       <MiniDrawer />
