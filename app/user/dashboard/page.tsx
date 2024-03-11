@@ -31,6 +31,8 @@ interface FormValues {
 
 const Userdash = () => {
   const history = useRouter();
+  const [isUser, setIsUser] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
   const initialValues: FormValues = {
     fullName: "",
     regNo: "",
@@ -85,12 +87,12 @@ const Userdash = () => {
   }
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      regNo: "",
-      email: "",
-      department: "",
-      year: "",
-      fatherName: "",
+      fullName: userData?.name || "",
+      regNo: userData?.roll_no || "",
+      email: userData?.email || "",
+      department: userData?.branch || "",
+      year: userData?.year || "",
+      fatherName: userData?.fathername || "",
       purpose: "",
     },
     validationSchema: validationSchema,
@@ -99,14 +101,33 @@ const Userdash = () => {
   const [isTokenPresent, setIsTokenPresent] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    const userRole = localStorage.getItem("role");
+    if (!token|| userRole !== "user") {
       history.push("/");
     } else {
       setIsTokenPresent(true);
+      setIsUser(true);
+      const userDataString = localStorage.getItem("userData");
+      let userDataLocal: any = null;
+      if (userDataString) {
+        userDataLocal = JSON.parse(userDataString);
+        setUserData(userDataLocal);
+      }
     }
   }, [history]);
+  useEffect(() => {
+    formik.setValues({
+      fullName: userData?.name || "",
+      regNo: userData?.roll_no || "",
+      email: userData?.email || "",
+      department: userData?.branch || "",
+      year: userData?.year || "",
+      fatherName: userData?.fathername || "",
+      purpose: "",
+    });
+  }, [userData]);
 
-  if (!isTokenPresent) {
+  if (!isTokenPresent || !isUser) {
     return (
       <div
         style={{
@@ -164,33 +185,25 @@ const Userdash = () => {
                   Bonafied Application
                 </Typography>
                 <Box mb={2}>
-                  <TextField
-                    fullWidth
-                    id="fullName"
-                    name="fullName"
-                    label="Full Name *"
-                    value={formik.values.fullName}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.fullName && Boolean(formik.errors.fullName)
-                    }
-                    helperText={
-                      formik.touched.fullName && formik.errors.fullName
-                    }
-                    onBlur={formik.handleBlur}
-                  />
-                </Box>
+                <TextField
+                  fullWidth
+                  id="fullName"
+                  name="fullName"
+                  label="Full Name *"
+                  value={userData?.name || ""}
+                  disabled
+                />
+              </Box>
                 <Box mb={2}>
                   <TextField
                     fullWidth
                     id="regNo"
                     name="regNo"
                     label="Registration Number *"
-                    value={formik.values.regNo}
-                    onChange={formik.handleChange}
-                    error={formik.touched.regNo && Boolean(formik.errors.regNo)}
-                    helperText={formik.touched.regNo && formik.errors.regNo}
-                    onBlur={formik.handleBlur}
+                    value={userData?.roll_no}
+                    disabled
+                    InputLabelProps={{ style: { color: 'rgba(0, 0, 0, 0.87)' } }}
+                    InputProps={{ style: { color: 'rgba(0, 0, 0, 0.87)', opacity: 1 } }}
                   />
                 </Box>
                 <Box mb={2}>
@@ -200,37 +213,24 @@ const Userdash = () => {
                     name="email"
                     label="Email *"
                     type="email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    onBlur={formik.handleBlur}
+                    value={userData?.email}
+                    disabled
+                    InputLabelProps={{ style: { color: 'rgba(0, 0, 0, 0.87)' } }}
+                    InputProps={{ style: { color: 'rgba(0, 0, 0, 0.87)', opacity: 1 } }}
                   />
                 </Box>
                 <Box mb={2}>
                   <TextField
                     fullWidth
-                    select
                     id="department"
                     name="department"
-                    label="Department *"
-                    value={formik.values.department}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.department &&
-                      Boolean(formik.errors.department)
-                    }
-                    helperText={
-                      formik.touched.department && formik.errors.department
-                    }
-                    onBlur={formik.handleBlur}
-                  >
-                    {departments.map((department) => (
-                      <MenuItem key={department} value={department}>
-                        {department}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    label="Brnch *"
+                    type="text"
+                    value={userData?.branch}
+                    disabled
+                    InputLabelProps={{ style: { color: 'rgba(0, 0, 0, 0.87)' } }}
+                    InputProps={{ style: { color: 'rgba(0, 0, 0, 0.87)', opacity: 1 } }}
+                  />
                 </Box>
                 <Box mb={2}>
                   <TextField
@@ -238,11 +238,10 @@ const Userdash = () => {
                     id="year"
                     name="year"
                     label="Year *"
-                    value={formik.values.year}
-                    onChange={formik.handleChange}
-                    error={formik.touched.year && Boolean(formik.errors.year)}
-                    helperText={formik.touched.year && formik.errors.year}
-                    onBlur={formik.handleBlur}
+                    value={userData?.year}
+                    disabled
+                    InputLabelProps={{ style: { color: 'rgba(0, 0, 0, 0.87)' } }}
+                    InputProps={{ style: { color: 'rgba(0, 0, 0, 0.87)', opacity: 1 } }}
                   />
                 </Box>
                 <Box mb={2}>
@@ -251,16 +250,10 @@ const Userdash = () => {
                     id="fatherName"
                     name="fatherName"
                     label="Father's Name *"
-                    value={formik.values.fatherName}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.fatherName &&
-                      Boolean(formik.errors.fatherName)
-                    }
-                    helperText={
-                      formik.touched.fatherName && formik.errors.fatherName
-                    }
-                    onBlur={formik.handleBlur}
+                    value={userData.fathername}
+                    disabled
+                    InputLabelProps={{ style: { color: 'rgba(0, 0, 0, 0.87)' } }}
+                    InputProps={{ style: { color: 'rgba(0, 0, 0, 0.87)', opacity: 1 } }}
                   />
                 </Box>
                 <Box mb={2}>
