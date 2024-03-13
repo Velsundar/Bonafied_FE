@@ -15,5 +15,10 @@ class AdminBonafiedManagementService {
     const URL = getApiRoute(`${API_ROUTES?.ADMIN?.BONAFIED?.GETALL}/${id}`);
     return await this.AXIOS.get(URL);
   }
+  async updateBonafied(id: string, payload:any) {
+    const URL = getApiRoute(`${API_ROUTES?.ADMIN?.BONAFIED?.UPDATE}/${id}`);
+    return await this.AXIOS.put(URL, payload); 
+  }
+
 }
 export default new AdminBonafiedManagementService();

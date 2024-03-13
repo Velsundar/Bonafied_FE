@@ -2,6 +2,12 @@
 import NavBar from "../../../app/dashboard/navbar";
 import {
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   IconButton,
   Paper,
@@ -26,6 +32,8 @@ import {
 } from "../../../app/components/MUI/Buttons/Button";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 interface CustomDataGridProps {
   rows: any[];
@@ -47,6 +55,8 @@ const Adminbonafied = () => {
   console.log("userdata", userData);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState<any>(5);
+  const [openDialog, setOpenDialog] = useState(false); // State to manage dialog open/close
+  const [approvalStatus, setApprovalStatus] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userRole = localStorage.getItem("role");
@@ -75,9 +85,16 @@ const Adminbonafied = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handleEdit = (userId: any) => {
-    // Handle edit action
-    console.log("Edit user:", userId);
+  const handleEdit = async (userId: any) => {
+    try {
+      const response = await AdminBonafiedManagementService.getBonafiedById(
+        userId
+      );
+      setSelectedBonafied(response.data);
+      setOpenDialog(true);
+    } catch (error) {
+      console.error("Error fetching bonafied:", error);
+    }
   };
   const handleView = async (userId: any) => {
     try {
@@ -93,6 +110,20 @@ const Adminbonafied = () => {
     // Handle delete action
     console.log("Delete user:", userId);
   };
+  const handleConfirmApproval = async () => {
+    try {
+      const id = selectedBonafied?._id;
+      const payload = { approval: true };
+      await AdminBonafiedManagementService.updateBonafied(id, payload);
+      setOpenDialog(false);
+      setApprovalStatus(true);
+
+      const response = await AdminBonafiedManagementService.getAllBonafied();
+      setUserData(response?.data?.data);
+    } catch (error) {
+      console.error("Error updating bonafied:", error);
+    }
+  };
   const columns = [
     { field: "fullName", headerName: "Full Name", width: 150 },
     { field: "regNo", headerName: "Registration Number", width: 150 },
@@ -107,11 +138,19 @@ const Adminbonafied = () => {
       width: 200,
       renderCell: (params: any) => (
         <Box>
-          <Tooltip title="Edit" arrow>
-            <IconButton onClick={() => handleEdit(params.row._id)}>
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
+          {params.row.approval ? (
+            <Tooltip title="Download" arrow>
+              <IconButton>
+                <GetAppIcon />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Approve" arrow>
+              <IconButton onClick={() => handleEdit(params.row._id)}>
+                <DoneAllIcon />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title="View" arrow>
             <IconButton onClick={() => handleView(params.row._id)}>
               <VisibilityIcon />
@@ -144,7 +183,7 @@ const Adminbonafied = () => {
         <Box sx={{ flexGrow: 1, padding: "2px" }}>
           <Typography variant="h6">Bonafied Applications</Typography>
           <Divider sx={{ borderBottomWidth: "5px" }} />
-          <div style={{ height: 400, width: "100%",marginTop:"25px" }}>
+          <div style={{ height: 400, width: "100%", marginTop: "25px" }}>
             <DataGrid
               rows={userData}
               columns={columns}
@@ -159,6 +198,32 @@ const Adminbonafied = () => {
           </div>
         </Box>
       </PaperLayout>
+      {/* Dialog for approval confirmation */}
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>Confirm Approval</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to approve this request?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{ justifyContent: "center" }}>
+          <Button
+            onClick={() => setOpenDialog(false)}
+            color="error"
+            variant="outlined"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConfirmApproval}
+            color="primary"
+            variant="contained"
+            style={{ margin: "8px", backgroundColor: "#2196f3" }}
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

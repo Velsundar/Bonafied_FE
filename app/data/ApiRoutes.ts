@@ -9,7 +9,8 @@ export const API_ROUTES = Object.freeze({
   ADMIN:{
     BONAFIED:{
         GETALL: "/bonafied",
-        GETBYID: "/bonafied"
+        GETBYID: "/bonafied",
+        UPDATE: "/updatebonafied"
     },
   }
 });
