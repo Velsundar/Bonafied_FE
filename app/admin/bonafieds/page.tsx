@@ -55,7 +55,8 @@ const Adminbonafied = () => {
   console.log("userdata", userData);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState<any>(5);
-  const [openDialog, setOpenDialog] = useState(false); // State to manage dialog open/close
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openViewDialog, setOpenViewDialog] = useState(false); // State to manage dialog open/close
   const [approvalStatus, setApprovalStatus] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -102,6 +103,7 @@ const Adminbonafied = () => {
         userId
       );
       setSelectedBonafied(response.data);
+      setOpenViewDialog(true);
     } catch (error) {
       console.error("Error fetching bonafied by ID:", error);
     }
@@ -165,7 +167,28 @@ const Adminbonafied = () => {
       ),
     },
   ];
-
+  const mapKeyToLabel = (key: any) => {
+    switch (key) {
+      case "fullName":
+        return "Full Name";
+      case "regNo":
+        return "Registration Number";
+      case "department":
+        return "Department";
+      case "year":
+        return "Year";
+      case "email":
+        return "Email";
+      case "fatherName":
+        return "Father's Name";
+      case "purpose":
+        return "Purpose";
+      case "approval":
+        return "Approval";
+      default:
+        return key;
+    }
+  };
   return (
     <Box
       style={{ display: "flex", height: "calc(100vh - 120px)", width: "100%" }}
@@ -221,6 +244,47 @@ const Adminbonafied = () => {
             style={{ margin: "8px", backgroundColor: "#2196f3" }}
           >
             Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openViewDialog} onClose={() => setOpenViewDialog(false)}>
+        <DialogTitle>Bonafied Information</DialogTitle>
+        <DialogContent>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableBody>
+                {Object.entries(selectedBonafied || {}).map(
+                  ([key, value]: any) =>
+                    key !== "_id" &&
+                    key !== "__v" && (
+                      <TableRow key={key}>
+                        <TableCell>{mapKeyToLabel(key)}</TableCell>
+                        <TableCell
+                          style={{
+                            color:
+                              key === "approval"
+                                ? value
+                                  ? "green"
+                                  : "peachpuff"
+                                : "inherit",
+                          }}
+                        >
+                          {key === "approval"
+                            ? value
+                              ? "APPROVED"
+                              : "PENDING"
+                            : value}
+                        </TableCell>
+                      </TableRow>
+                    )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenViewDialog(false)} color="primary">
+            Close
           </Button>
         </DialogActions>
       </Dialog>
