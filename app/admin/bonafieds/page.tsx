@@ -129,10 +129,10 @@ const Adminbonafied = () => {
   const columns = [
     { field: "fullName", headerName: "Full Name", width: 150 },
     { field: "regNo", headerName: "Registration Number", width: 150 },
-    { field: "department", headerName: "Department", width: 150 },
+    // { field: "department", headerName: "Department", width: 150 },
     { field: "year", headerName: "Year", width: 120 },
     { field: "email", headerName: "Email", width: 200 },
-    { field: "fatherName", headerName: "Father's Name", width: 180 },
+    // { field: "fatherName", headerName: "Father's Name", width: 180 },
     { field: "purpose", headerName: "Purpose", width: 180 },
     {
       field: "actions",
