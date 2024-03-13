@@ -6,10 +6,14 @@ class AdminBonafiedManagementService {
   constructor() {
     this.AXIOS = AxiosService.getApiInstance();
   }
-    // ******************| ADMIN Bonafied Management |***********************
-    async getAllBonafied() {
-        const URL = getApiRoute(API_ROUTES?.ADMIN?.BONAFIED?.GETALL);
-        return await this.AXIOS.get(URL);
-      }
+  // ******************| ADMIN Bonafied Management |***********************
+  async getAllBonafied() {
+    const URL = getApiRoute(API_ROUTES?.ADMIN?.BONAFIED?.GETALL);
+    return await this.AXIOS.get(URL);
+  }
+  async getBonafiedById(id: string) {
+    const URL = getApiRoute(`${API_ROUTES?.ADMIN?.BONAFIED?.GETALL}/${id}`);
+    return await this.AXIOS.get(URL);
+  }
 }
 export default new AdminBonafiedManagementService();
