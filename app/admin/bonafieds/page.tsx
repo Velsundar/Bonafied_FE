@@ -34,6 +34,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import jsPDF from "jspdf";
 
 interface CustomDataGridProps {
   rows: any[];
@@ -85,6 +86,17 @@ const Adminbonafied = () => {
   const handleChangeRowsPerPage = (event: { target: { value: string } }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+/////////PDF
+  const generatePDF: any = () => {
+    const doc = new jsPDF();
+    const header = "Bonafied Information";
+    const body = `Name: ${selectedBonafied.fullName}\nRegistration Number: ${selectedBonafied.regNo}\nYear: ${selectedBonafied.year}\nEmail: ${selectedBonafied.email}\nPurpose: ${selectedBonafied.purpose}`;
+    doc.setFontSize(18);
+    doc.text(header, 105, 10, { align: "center" });
+    doc.setFontSize(12);
+    doc.text(body, 10, 30);
+    doc.save(`${selectedBonafied?.fullName}_bonafied.pdf`);
   };
   const handleEdit = async (userId: any) => {
     try {
@@ -142,7 +154,7 @@ const Adminbonafied = () => {
         <Box>
           {params.row.approval ? (
             <Tooltip title="Download" arrow>
-              <IconButton>
+              <IconButton onClick={generatePDF}>
                 <GetAppIcon />
               </IconButton>
             </Tooltip>
