@@ -34,7 +34,16 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import RightLogo from "../../assets/png/logo.jpg";
+import LeftLogo from "../../assets/png/SNR_LOGO.png";
+import { COLLEGE_INFORMATION } from "../../../app/data/AppConst";
+declare module "jspdf" {
+  interface jsPDF {
+    autoTable: (options: object) => jsPDF;
+  }
+}
 interface CustomDataGridProps {
   rows: any[];
   columns: any[];
@@ -85,6 +94,110 @@ const Adminbonafied = () => {
   const handleChangeRowsPerPage = (event: { target: { value: string } }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+  /////////PDF
+  const generatePDF = async (userId: string) => {
+    try {
+      const response = await AdminBonafiedManagementService.getBonafiedById(
+        userId
+      );
+      const rowDataPdf = response.data;
+      console.log("rowdatapdf", rowDataPdf);
+      const doc = new jsPDF();
+
+      const leftLogo = LeftLogo.src;
+      const rightLogo = RightLogo.src;
+      // Header
+      const [collegeName, TRUST, NAAC, AFFILIATED, ISO, collegeAddress] =
+        COLLEGE_INFORMATION;
+      const header = `<b>${collegeName}</b>\n${TRUST}\n${NAAC}\n${AFFILIATED}\n${ISO}\n${collegeAddress}`;
+      // Add left logo
+      doc.addImage(leftLogo, "PNG", 10, 14, 30, 30);
+      // Add right logo
+      doc.addImage(
+        rightLogo,
+        "JPEG",
+        doc.internal.pageSize.getWidth() - 40,
+        17,
+        30,
+        20
+      ); //position -  (width - 60, 5) with width 50 and height 20
+      // Body
+      const currentYear = new Date().getFullYear();
+      const startYear = currentYear - 1;
+      const endYear = currentYear;
+      const academicYear = `${startYear} - ${endYear}`;
+      // Body
+      const title = `TO WHOMSOEVER IT MAY CONCERN`;
+      const body = `Certified that ${rowDataPdf?.fullName} ${rowDataPdf?.regNo} is bonafied student of this college and studying in ${rowDataPdf?.year}\n  B.Tech ${rowDataPdf?.department} during the academic year ${academicYear}`;
+      // Tables
+      const tableData = [
+        { name: "Table 1", value: "Value 1" },
+        { name: "Table 2", value: "Value 2" },
+      ];
+      // Calculate height of header
+      const headerHeight = doc.getTextDimensions(header).h;
+      // Set up PDF content
+      doc.setFontSize(14);
+      doc.text(collegeName, doc.internal.pageSize.getWidth() / 2, 10, {
+        align: "center",
+      });
+      doc.setFontSize(7);
+      doc.text(TRUST, doc.internal.pageSize.getWidth() / 2, 20, {
+        align: "center",
+      });
+      doc.text(NAAC, doc.internal.pageSize.getWidth() / 2, 25, {
+        align: "center",
+      });
+      doc.text(AFFILIATED, doc.internal.pageSize.getWidth() / 2, 30, {
+        align: "center",
+      });
+      doc.text(ISO, doc.internal.pageSize.getWidth() / 2, 35, {
+        align: "center",
+      });
+      doc.text(collegeAddress, doc.internal.pageSize.getWidth() / 2, 40, {
+        align: "center",
+      });
+      doc.setFontSize(9);
+      const currentDate = new Date().toLocaleDateString();
+      const labeledDate = `DATE: ${currentDate}`;
+      const labeledDateWidth = doc.getTextWidth(labeledDate);
+      doc.text(
+        labeledDate,
+        doc.internal.pageSize.getWidth() - labeledDateWidth - 10,
+        50,
+        { align: "right" }
+      );
+      doc.setFontSize(15);
+      const titleYPosition = headerHeight + 55;
+      doc.text(title, doc.internal.pageSize.getWidth() / 2, titleYPosition, {
+        align: "center",
+      });
+      const titleWidth = doc.getTextWidth(title);
+      const titleUnderlineYPosition = titleYPosition + 1;
+      doc.setLineWidth(0.5);
+      doc.line(
+        doc.internal.pageSize.getWidth() / 2 - titleWidth / 2,
+        titleUnderlineYPosition,
+        doc.internal.pageSize.getWidth() / 2 + titleWidth / 2,
+        titleUnderlineYPosition
+      );
+      doc.setFontSize(10);
+      const bodyYPosition = titleYPosition + 8;
+      doc.text(body, 16, bodyYPosition);
+      // Calculate startY position for the first table
+      const tableYPosition = bodyYPosition + 30;
+      // Draw the first table
+      doc.autoTable({
+        startY: tableYPosition,
+        head: [["Table Name", "Value"]],
+        body: tableData.map((row) => [row.name, row.value]),
+      });
+      // Save PDF
+      doc.save(`${rowDataPdf?.fullName}_bonafied.pdf`);
+    } catch (error) {
+      console.error("Error fetching bonafied:", error);
+    }
   };
   const handleEdit = async (userId: any) => {
     try {
@@ -142,7 +255,7 @@ const Adminbonafied = () => {
         <Box>
           {params.row.approval ? (
             <Tooltip title="Download" arrow>
-              <IconButton>
+              <IconButton onClick={() => generatePDF(params.row._id)}>
                 <GetAppIcon />
               </IconButton>
             </Tooltip>
