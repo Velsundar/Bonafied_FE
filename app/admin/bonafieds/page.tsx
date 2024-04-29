@@ -129,12 +129,31 @@ const Adminbonafied = () => {
       const academicYear = `${startYear} - ${endYear}`;
       // Body
       const title = `TO WHOMSOEVER IT MAY CONCERN`;
-      const body = `Certified that ${rowDataPdf?.fullName} ${rowDataPdf?.regNo} is bonafied student of this college and studying in ${rowDataPdf?.year}\n  B.Tech ${rowDataPdf?.department} during the academic year ${academicYear}`;
+      const body = `Certified that ${rowDataPdf?.fullName} ${rowDataPdf?.regNo} is bonafied student of this college and studying in ${rowDataPdf?.year}\n  B.Tech ${rowDataPdf?.department} during the academic year ${academicYear} 
+       
+         The following expenses will occur in first,second,third, and final years of B.Tech degree course.`;
       // Tables
+      const seat=rowDataPdf.seat_type
+      
+      if(seat=="Government"){
       const tableData = [
-        { name: "Table 1", value: "Value 1" },
-        { name: "Table 2", value: "Value 2" },
+        { name: "Tution Fees", value1: " 50,000.00", value2:"50,000.00",value3:"50,000.00",value4:"50,000.00" },
+        { name: "Development Fee", value1: "5,000.00",value2: "5,000.00",value3: "5,000.00",value4: "5,000.00" },
+        { name: "Placement & Training fees",value1:"15,000.00",value2:"15,000.00",value3:"15,000.00",value4:"15,000.00" },
+        { name: "Value Added Programme Fee",value1:"25,000.00",value2:"-",value3:"-",value4:"-"},
+        { name:  "One Credit Course",value1:"-",value2:"5,000.00",value3:"5,000.00",value4:"5,000.00",},
+      
       ];
+    }
+    else{
+      const tableData = [
+        { name: "Tution Fees", value1: " 150,000.00", value2:"70,000.00",value3:"90,000.00",value4:"80,000.00" },
+        { name: "Development Fee", value1: "5,000.00",value2: "5,000.00",value3: "5,000.00",value4: "5,000.00" },
+        { name: "Placement & Training fees",value1:"15,000.00",value2:"15,000.00",value3:"15,000.00",value4:"15,000.00" },
+        { name: "Value Added Programme Fee",value1:"25,000.00",value2:"-",value3:"-",value4:"-"},
+        { name:  "One Credit Course",value1:"-",value2:"5,000.00",value3:"5,000.00",value4:"5,000.00",},
+      ];
+    }
       // Calculate height of header
       const headerHeight = doc.getTextDimensions(header).h;
       // Set up PDF content
@@ -190,8 +209,8 @@ const Adminbonafied = () => {
       // Draw the first table
       doc.autoTable({
         startY: tableYPosition,
-        head: [["Table Name", "Value"]],
-        body: tableData.map((row) => [row.name, row.value]),
+        head:[["Particulars", " I Year", "II Year ", "III Year","IV Year"]],
+        body: tableData.map((row) => [row.name, row.value1,row.value2, row.value3, row.value4]),
       });
       // Save PDF
       doc.save(`${rowDataPdf?.fullName}_bonafied.pdf`);
