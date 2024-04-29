@@ -145,7 +145,7 @@ export default function MiniDrawer() {
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   component="a"
-                  href={index === 0 ? "/admin/bonafieds" : index === 1 ? "/admin/comingsoon" : ""}
+                  href={index === 0 ? "/admin/bonafieds" : index === 1 ? "/admin/register" : ""}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
