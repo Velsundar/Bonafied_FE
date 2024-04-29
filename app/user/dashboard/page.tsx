@@ -27,6 +27,7 @@ interface FormValues {
   email: string;
   fatherName: string;
   purpose: string;
+  seatType: string;
 }
 
 const Userdash = () => {
@@ -41,6 +42,7 @@ const Userdash = () => {
     email: "",
     fatherName: "",
     purpose: "",
+    seatType: "",
   };
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
@@ -94,6 +96,7 @@ const Userdash = () => {
       year: userData?.year || "",
       fatherName: userData?.fathername || "",
       purpose: "",
+      seatType: userData?.seatType || "",
     },
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
@@ -124,6 +127,7 @@ const Userdash = () => {
       year: userData?.year || "",
       fatherName: userData?.fathername || "",
       purpose: "",
+      seatType: userData?.seatType || "",
     });
   }, [userData]);
 
