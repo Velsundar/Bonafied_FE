@@ -148,7 +148,7 @@ const Adminbonafied = () => {
     }
     else{
       tableData = [
-        { name: "Tution", value1: " 150,00.00", value2:"70,000.00",value3:"90,000.00",value4:"80,000.00" },
+        { name: "Tution", value1: " 140,00.00", value2:"140,000.00",value3:"140,000.00",value4:"140,000.00" },
         { name: "Development Fee", value1: "5,000.00",value2: "5,000.00",value3: "5,000.00",value4: "5,000.00" },
         { name: "Placement & Training fees",value1:"15,000.00",value2:"15,000.00",value3:"15,000.00",value4:"15,000.00" },
         { name: "Value Added Programme Fee",value1:"25,000.00",value2:"-",value3:"-",value4:"-"},
