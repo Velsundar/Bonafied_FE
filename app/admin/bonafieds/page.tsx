@@ -136,24 +136,30 @@ const Adminbonafied = () => {
       // const seat=rowDataPdf.seatType
       // console.log("seat",seat)
       let tableData: { name: string; value1: string; value2: string; value3: string; value4: string }[] = [];
-      if(rowDataPdf?.seatType =="Government"){
-      tableData = [
-        { name: "Tution Fees", value1: " 50,000.00", value2:"50,000.00",value3:"50,000.00",value4:"50,000.00" },
-        { name: "Development Fee", value1: "5,000.00",value2: "5,000.00",value3: "5,000.00",value4: "5,000.00" },
-        { name: "Placement & Training fees",value1:"15,000.00",value2:"15,000.00",value3:"15,000.00",value4:"15,000.00" },
-        { name: "Value Added Programme Fee",value1:"25,000.00",value2:"-",value3:"-",value4:"-"},
-        { name:  "One Credit Course",value1:"-",value2:"5,000.00",value3:"5,000.00",value4:"5,000.00",},
-      
-      ];
-    }
-    else{
-      tableData = [
-        { name: "Tution", value1: " 140,00.00", value2:"140,000.00",value3:"140,000.00",value4:"140,000.00" },
-        { name: "Development Fee", value1: "5,000.00",value2: "5,000.00",value3: "5,000.00",value4: "5,000.00" },
-        { name: "Placement & Training fees",value1:"15,000.00",value2:"15,000.00",value3:"15,000.00",value4:"15,000.00" },
-        { name: "Value Added Programme Fee",value1:"25,000.00",value2:"-",value3:"-",value4:"-"},
-        { name:  "One Credit Course",value1:"-",value2:"5,000.00",value3:"5,000.00",value4:"5,000.00",},
-      ];
+      if (rowDataPdf?.seatType === "Government") {
+        tableData = [
+            { name: "Tution Fees", value1: " 50,000.00", value2:"50,000.00", value3:"50,000.00", value4:"50,000.00" },
+            { name: "Development Fee", value1: "5,000.00", value2: "5,000.00", value3: "5,000.00", value4: "5,000.00" },
+            { name: "Placement & Training fees", value1:"15,000.00", value2:"15,000.00", value3:"15,000.00", value4:"15,000.00" },
+            { name: "Value Added Programme Fee", value1:"25,000.00", value2:"-", value3:"-", value4:"-"},
+            { name:  "One Credit Course", value1:"-", value2:"5,000.00", value3:"5,000.00", value4:"5,000.00",},
+        ];
+    } else if (rowDataPdf?.seatType === "Management") {
+        tableData = [
+            { name: "Tution", value1: " 150,0.00", value2:"70,000.00", value3:"90,000.00", value4:"80,000.00" },
+            { name: "Development Fee", value1: "5,000.00", value2: "5,000.00", value3: "5,000.00", value4: "5,000.00" },
+            { name: "Placement & Training fees", value1:"15,000.00", value2:"15,000.00", value3:"15,000.00", value4:"15,000.00" },
+            { name: "Value Added Programme Fee", value1:"25,000.00", value2:"-", value3:"-", value4:"-"},
+            { name:  "One Credit Course", value1:"-", value2:"5,000.00", value3:"5,000.00", value4:"5,000.00",},
+        ];
+    } else {
+        tableData = [
+            { name: "T", value1: " 45,000.00", value2:"45,000.00", value3:"45,000.00", value4:"45,000.00" },
+            { name: "Development Fee", value1: "5,000.00", value2: "5,000.00", value3: "5,000.00", value4: "5,000.00" },
+            { name: "Placement & Training fees", value1:"15,000.00", value2:"15,000.00", value3:"15,000.00", value4:"15,000.00" },
+            { name: "Value Added Programme Fee", value1:"25,000.00", value2:"-", value3:"-", value4:"-"},
+            { name:  "One Credit Course", value1:"-", value2:"5,000.00", value3:"5,000.00", value4:"5,000.00",},
+        ];
     }
       // Calculate height of header
       const headerHeight = doc.getTextDimensions(header).h;

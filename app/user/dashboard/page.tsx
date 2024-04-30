@@ -61,6 +61,7 @@ const Userdash = () => {
     email: "",
     fatherName: "",
     purpose: "",
+    seatType: "",
   });
 
   const departments = [
@@ -81,6 +82,7 @@ const Userdash = () => {
   const handleSubmit = async (values: FormValues) => {
     try {
       await axios.post("http://localhost:4000/api/bonafied", values);
+      console.log('valuesonsubmit',values)
       toast.success("Submitted Successfully!");
       formik.resetForm();
     } catch (error: any) {
