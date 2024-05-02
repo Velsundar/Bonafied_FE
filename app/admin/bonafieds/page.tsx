@@ -129,7 +129,7 @@ const Adminbonafied = () => {
       const academicYear = `${startYear} - ${endYear}`;
       // Body
       const title = `TO WHOMSOEVER IT MAY CONCERN`;
-      const body = `Certified that ${rowDataPdf?.fullName} ${rowDataPdf?.regNo} is bonafied student of this college and studying in ${rowDataPdf?.year}\n  B.Tech ${rowDataPdf?.department} during the academic year ${academicYear} 
+      const body = `Certified that ${rowDataPdf?.fullName} ${rowDataPdf?.regNo} is bonafide student of this college and studying in ${rowDataPdf?.year}\n  B.Tech ${rowDataPdf?.department} during the academic year ${academicYear} 
        
          The following expenses will occur in first,second,third, and final years of B.Tech degree course.`;
       // Tables
@@ -146,7 +146,7 @@ const Adminbonafied = () => {
         ];
     } else if (rowDataPdf?.seatType === "Management") {
         tableData = [
-            { name: "Tution", value1: " 150,0.00", value2:"70,000.00", value3:"90,000.00", value4:"80,000.00" },
+            { name: "Tution", value1: " 140,000.00", value2:"140,000.00", value3:"140,000.00", value4:"140,000.00" },
             { name: "Development Fee", value1: "5,000.00", value2: "5,000.00", value3: "5,000.00", value4: "5,000.00" },
             { name: "Placement & Training fees", value1:"15,000.00", value2:"15,000.00", value3:"15,000.00", value4:"15,000.00" },
             { name: "Value Added Programme Fee", value1:"25,000.00", value2:"-", value3:"-", value4:"-"},
@@ -154,7 +154,7 @@ const Adminbonafied = () => {
         ];
     } else {
         tableData = [
-            { name: "T", value1: " 45,000.00", value2:"45,000.00", value3:"45,000.00", value4:"45,000.00" },
+            { name: "Tution fees", value1: " 25,000.00", value2:"25,000.00", value3:"25,000.00", value4:"25,000.00" },
             { name: "Development Fee", value1: "5,000.00", value2: "5,000.00", value3: "5,000.00", value4: "5,000.00" },
             { name: "Placement & Training fees", value1:"15,000.00", value2:"15,000.00", value3:"15,000.00", value4:"15,000.00" },
             { name: "Value Added Programme Fee", value1:"25,000.00", value2:"-", value3:"-", value4:"-"},
@@ -343,7 +343,7 @@ const Adminbonafied = () => {
         }}
       >
         <Box sx={{ flexGrow: 1, padding: "2px" }}>
-          <Typography variant="h6">Bonafied Applications</Typography>
+          <Typography variant="h6">Bonafide Applications</Typography>
           <Divider sx={{ borderBottomWidth: "5px" }} />
           <div style={{ height: 400, width: "100%", marginTop: "25px" }}>
             <DataGrid
@@ -387,7 +387,7 @@ const Adminbonafied = () => {
         </DialogActions>
       </Dialog>
       <Dialog open={openViewDialog} onClose={() => setOpenViewDialog(false)}>
-        <DialogTitle>Bonafied Information</DialogTitle>
+        <DialogTitle>Bonafide Information</DialogTitle>
         <DialogContent>
           <TableContainer component={Paper}>
             <Table>
