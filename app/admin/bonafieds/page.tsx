@@ -31,7 +31,7 @@ import {
   DeleteIcon,
 } from "../../../app/components/MUI/Buttons/Button";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridRowsProp } from "@mui/x-data-grid";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import jsPDF from "jspdf";
@@ -58,7 +58,7 @@ const Adminbonafied = () => {
   const history = useRouter();
   const [isTokenPresent, setIsTokenPresent] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [userData, setUserData] = useState<any>([]);
+  const [userData, setUserData] = useState<GridRowsProp>([]);
   const [selectedBonafied, setSelectedBonafied] = useState<any>(null);
   console.log("selectedbonafied", selectedBonafied);
   console.log("userdata", userData);
@@ -349,12 +349,12 @@ const Adminbonafied = () => {
             <DataGrid
               rows={userData}
               columns={columns}
-              pageSize={rowsPerPage}
+              // pageSize={rowsPerPage}
               paginationMode="server"
-              page={page}
+              // page={page}
               getRowId={(row) => row._id}
-              onPageChange={(newPage: any) => setPage(newPage.page)}
-              onPageSizeChange={(pageSize: any) => setRowsPerPage(pageSize)}
+              // onPageChange={(newPage: any) => setPage(newPage.page)}
+              // onPageSizeChange={(pageSize: any) => setRowsPerPage(pageSize)}
               pagination
             />
           </div>

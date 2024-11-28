@@ -38,9 +38,9 @@ import axios, {
     onResponse(response: AxiosResponse): AxiosResponse {
       // Only for subscription expired time it shows
       if (response?.data?.SUB_EXPIRED) {
-        toast.error(response?.data?.message || '', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        // toast.error(response?.data?.message || '', {
+        //   position: toast.POSITION.TOP_RIGHT,
+        // });
       }
       return response;
     }
