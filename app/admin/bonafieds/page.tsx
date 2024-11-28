@@ -360,7 +360,6 @@ const Adminbonafied = () => {
           </div>
         </Box>
       </PaperLayout>
-      {/* Dialog for approval confirmation */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Confirm Approval</DialogTitle>
         <DialogContent>
